@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Note from "./components/Note";
 import axios from "axios";
 
+const baseURL = `http://localhost:3001/notes`;
+
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
@@ -9,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
     //1. get data from backend server
-    let myAxiosPromise = axios.get("http://localhost:3001/notes");
+    let myAxiosPromise = axios.get(baseURL);
     myAxiosPromise.then((myResult) => {
       //2. put the data into notes state
       setNotes(myResult.data);
@@ -26,7 +28,7 @@ const App = () => {
       important: Math.random() > 0.5,
     };
     //1. add data to the backend
-    const addPromise = axios.post(`http://localhost:3001/notes`, myNote);
+    const addPromise = axios.post(baseURL, myNote);
     addPromise
       .then((response) => console.log(response.data))
       .catch((err) => console.log(err));
@@ -49,10 +51,7 @@ const App = () => {
     const toBeUpdated = notes.find((val) => val.id === id);
     const updatedValue = { ...toBeUpdated, important: !toBeUpdated.important };
     //2. update to backend server
-    const updatePromise = axios.put(
-      `http://localhost:3001/notes/${id}`,
-      updatedValue
-    );
+    const updatePromise = axios.put(`${baseURL}/${id}`, updatedValue);
     updatePromise.then((response) =>
       setNotes(notes.map((val) => (val.id === id ? response.data : val)))
     );
