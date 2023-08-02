@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
-    "server": "json-server --port 3001 --watch ./db.json"
+    "build:ui": "cd ./src && rm -rf dist && npm run build && rm -rf ../notes_backend_server/dist &&cp -r ./src/dist/ ../notes_backend_server"
   },
   "keywords": [],
   "author": "",
