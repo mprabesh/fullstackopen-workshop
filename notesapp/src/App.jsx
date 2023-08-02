@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Note from "./components/Note";
 import axios from "axios";
 
-const baseURL = `http://localhost:3001/notes`;
+const baseURL = `/api/notes`;
 
 const App = () => {
   const [notes, setNotes] = useState([]);
