@@ -1,75 +1,64 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.e1nz5ox.mongodb.net/?retryWrites=true&w=majority`;
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+});
+
+const Note = mongoose.model("Note", noteSchema);
 
 app.use(express.json());
 app.use(cors());
 app.use(express.static("dist"));
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
-
-app.get("/api/notes", (request, response) => {
-  response.json(notes);
+app.get("/api/notes", (req, res) => {
+  Note.find({}).then((result) => {
+    res.json(result);
+  });
 });
 
-app.get("/api/notes/:id", (request, response) => {
-  const myId = Number(request.params.id);
-  const myNote = notes.find((note) => note.id === myId);
-
-  if (myNote) {
-    response.json(myNote);
-  } else {
-    response.status(404).send(`There are no notes at ${myId}`);
-  }
-});
-
-app.put("/api/notes/:id", (request, response) => {
-  const myId = Number(request.params.id);
-  const updatedNote = request.body;
-  let noteFound = false;
-  notes = notes.map((note) => {
-    if (note.id !== myId) return note;
-    else {
-      noteFound = true;
-      return updatedNote;
+app.get("/api/notes/:id", (req, res) => {
+  const myId = req.params.id;
+  Note.findById(myId).then((result) => {
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ error: `No value with ${myId} exists` });
     }
   });
-
-  if (noteFound) {
-    response.status(202).json(updatedNote);
-  } else {
-    response.status(404).send(`There are no notes at ${myId}`);
-  }
 });
 
-app.delete("/api/notes/:id", (request, response) => {
-  const myId = Number(request.params.id);
-  notes = notes.filter((note) => note.id !== myId);
-
-  response.status(204).send(`The note at id ${myId} has been deleted`);
+app.put("/api/notes/:id", (req, res) => {
+  const myId = req.params.id;
+  const updatedNote = req.body;
+  Note.findByIdAndUpdate(myId, updatedNote)
+    .then((result) => {
+      res.status(200).json(updatedNote);
+    })
+    .catch((err) => console.log(err));
 });
 
-app.post("/api/notes", (request, response) => {
-  const myNewPost = request.body;
-  myNewPost.id = notes.length + 1;
-  notes.push(myNewPost);
-  response.status(201).json(myNewPost);
+app.delete("/api/notes/:id", (req, res) => {
+  const myId = req.params.id;
+  Note.findByIdAndDelete(myId).then((result) => {
+    res.status(204).json({ status: "Deletetion successful" });
+  });
+});
+
+app.post("/api/notes", (req, res) => {
+  const myNewPost = new Note(req.body);
+  myNewPost.save().then((result) => {
+    res.status(201).json(result);
+    mongoose.connection.close();
+  });
 });
 
 const PORT = process.env.PORT ? process.env.PORT : 8080;
