@@ -1,0 +1,43 @@
+###
+POST http://localhost:8080/api/notes
+content-type:application/json
+
+{
+    "content":"Now the cocntent is available",
+    "important":true
+}
+
+###
+GET  http://localhost:8080/api/notes
+
+###
+PUT http://localhost:8080/api/notes/64e6fb3e262858f9d5fb6b23
+content-type:application/json
+
+{
+    "content":"Now the content is available",
+    "important":true
+}
+
+###
+GET http://localhost:8080/api/users
+
+###
+POST http://localhost:8080/api/users
+content-type:application/json
+
+{
+    "username":"prabesh",
+    "name":"Prabesh Magar",
+    "password":"mypassword"
+}
+
+###
+PUT http://localhost:8080/api/users/64e8ce8aa22eccc0e848deb7
+content-type:application/json
+
+{
+    "username":"xxxxxxx",
+    "name":"XXXXXX XXXXX",
+    "password":"mypassword"
+}
