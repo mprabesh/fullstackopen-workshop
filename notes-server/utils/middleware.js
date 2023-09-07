@@ -7,7 +7,7 @@ const noHandlers = (request, response) => {
 };
 
 const authMiddleware = (request, response, next) => {
-  const { userId } = request.body;
+  const { user } = request.body;
   try {
     if (!request.headers.authorization) {
       response.status(401).json({ error: "missing token" });
@@ -17,7 +17,7 @@ const authMiddleware = (request, response, next) => {
     if (!decodedToken.id) {
       response.status(401).json({ error: "invalid token" });
     }
-    if (userId !== decodedToken.id) {
+    if (user !== decodedToken.id) {
       response.status(401).json({ error: "token mismatch" });
     }
     next();

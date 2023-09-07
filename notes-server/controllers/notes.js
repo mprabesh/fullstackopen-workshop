@@ -54,7 +54,7 @@ notesRouter.delete("/:id", (request, response, next) => {
 notesRouter.post("/", authMiddleware, async (request, response, next) => {
   const body = request.body;
   try {
-    const user = await User.findById(body.userId);
+    const user = await User.findById(body.user);
     const note = new Note({
       content: body.content,
       important: body.important || false,
