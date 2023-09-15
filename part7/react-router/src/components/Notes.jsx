@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 export const Notes = ({ notes }) => (
   <div>
@@ -14,8 +13,6 @@ export const Notes = ({ notes }) => (
   </div>
 );
 
-export const Note = ({ notes }) => {
-  const id = useParams().id;
-  const val = notes.find((note) => note.id == id);
-  return <li>{val.content}</li>;
+export const Note = ({ note }) => {
+  return <li>{note.content}</li>;
 };
