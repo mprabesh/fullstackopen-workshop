@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeFilter } from "../reducers/noteReducer";
+import { changeFilter } from "../reducers/filterReducer";
 
 const VisisbilityFilter = () => {
   const dispatch = useDispatch();
