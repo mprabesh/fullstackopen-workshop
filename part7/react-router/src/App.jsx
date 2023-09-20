@@ -3,7 +3,15 @@ import { Routes, Route, Link, Navigate, useMatch } from "react-router-dom";
 import { Login } from "./components/Login";
 import { Notes, Note } from "./components/Notes";
 import { Users, Home } from "./components/User";
-import { Alert, Navbar, Nav } from "react-bootstrap";
+// import { Navbar, Nav } from "react-bootstrap";
+import {
+  Container,
+  Alert,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+} from "@mui/material";
 
 const notes = [
   {
@@ -24,49 +32,51 @@ const App = () => {
   const note = match
     ? notes.find((note) => note.id === Number(match.params.id))
     : null;
-  const padding = {
-    padding: 15,
-  };
+  // const padding = {
+  //   padding: 15,
+  // };
 
   return (
-    <div className="container">
+    <Container>
+      {" "}
       <div className="notification_container">
         {user ? <Alert variant="success">{user} logged in</Alert> : null}
       </div>
       <div>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#" as="span">
-                <Link style={padding} to="/">
-                  home
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="secondary"
+              aria-label="menu"
+            ></IconButton>
+            <Button color="info">
+              <Link style={{ color: "green" }} to="/">
+                home
+              </Link>
+            </Button>
+            <Button color="info">
+              <Link style={{ color: "green" }} to="/notes">
+                notes
+              </Link>
+            </Button>
+            <Button color="info">
+              <Link style={{ color: "green" }} to="/users">
+                users
+              </Link>
+            </Button>
+            <Button color="info">
+              {user ? (
+                <em style={{ color: "green" }}>{user} logged in</em>
+              ) : (
+                <Link style={{ color: "green" }} to="/login">
+                  login
                 </Link>
-              </Nav.Link>
-              <Nav.Link href="#" as="span">
-                <Link style={padding} to="/notes">
-                  notes
-                </Link>
-              </Nav.Link>
-              <Nav.Link href="#" as="span">
-                <Link style={padding} to="/users">
-                  users
-                </Link>
-              </Nav.Link>
-              <Nav.Link href="#" as="span">
-                {user ? (
-                  <em style={padding}>{user} logged in</em>
-                ) : (
-                  <Link style={padding} to="/login">
-                    login
-                  </Link>
-                )}
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+              )}
+            </Button>
+          </Toolbar>
+        </AppBar>
       </div>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/notes" element={<Notes notes={notes} />} />
@@ -80,7 +90,7 @@ const App = () => {
       <div>
         <i>Note app, Department of Computer Science 2023</i>
       </div>
-    </div>
+    </Container>
   );
 };
 

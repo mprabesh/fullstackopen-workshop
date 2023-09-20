@@ -1,25 +1,30 @@
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Alert } from "react-bootstrap";
+// import { Form, Button, Alert } from "react-bootstrap";
+import { TextField, Button } from "@mui/material";
 
 export const Login = ({ setuser }) => {
   const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
+    console.log(e.target.username.value);
     setuser(e.target.username.value);
-    <Alert variant="success">{e.target.username.value} logged in!</Alert>;
     navigate("/");
   };
   return (
     <div style={{ margin: "15px" }}>
-      <Form onSubmit={handleLogin}>
-        <Form.Group>
-          <Form.Label>username</Form.Label>
-          <Form.Control type="text" name="username" />
-          <Button variant="primary" type="submit">
+      <form onSubmit={handleLogin}>
+        <div>
+          <TextField label="username" name="username" />
+        </div>
+        <div>
+          <TextField label="password" type="password" />
+        </div>
+        <div>
+          <Button variant="contained" color="primary" type="submit">
             login
           </Button>
-        </Form.Group>
-      </Form>
+        </div>
+      </form>
     </div>
   );
 };
