@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Sequelize, Model, QueryTypes, DataTypes } = require("sequelize");
+const { Sequelize, Model, DataTypes } = require("sequelize");
 const express = require("express");
 const app = express();
 
@@ -57,10 +57,10 @@ app.get("/api/notes/:id", async (req, res) => {
 app.post("/api/notes", async (req, res) => {
   const newNote = req.body;
   try {
-    const reponse = await Note.create(newNote);
-    res.json(response);
+    const data = await Note.create(newNote);
+    res.json(data);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error });
   }
 });
 
