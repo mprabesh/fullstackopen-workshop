@@ -1,0 +1,7 @@
+POST http://localhost:3002/api/notes
+content-type: application/json
+
+{
+    "content":"This is PRABESH MAGAR",
+    "important":false
+}
