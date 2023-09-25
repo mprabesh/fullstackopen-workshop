@@ -8,3 +8,11 @@ content-type: application/json
 }
 ###
 GET http://localhost:3002/api/notes/6
+
+###
+PUT http://localhost:3002/api/notes/1
+content-type:application/json
+
+{
+    "important":false
+}

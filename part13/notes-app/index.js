@@ -43,6 +43,9 @@ Note.init(
   }
 );
 
+// this creates DB if it does not exists
+Note.sync();
+
 app.get("/api/notes", async (req, res) => {
   const notes = await Note.findAll();
   res.status(200).json(notes);
@@ -61,6 +64,22 @@ app.post("/api/notes", async (req, res) => {
     res.json(data);
   } catch (error) {
     res.status(400).send({ error });
+  }
+});
+
+app.put("/api/notes/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const note = await Note.findByPk(id);
+    if (note) {
+      note.important = req.body.important;
+      await note.save();
+      res.json(note);
+    } else {
+      res.status(401).json({ error: "requested note not found" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
   }
 });
 
