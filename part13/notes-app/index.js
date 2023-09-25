@@ -54,7 +54,13 @@ app.get("/api/notes", async (req, res) => {
 app.get("/api/notes/:id", async (req, res) => {
   const id = req.params.id;
   const note = await Note.findByPk(id);
-  res.status(200).json(note);
+  if (note) {
+    // console.log(note.toJSON());
+    console.log(JSON.stringify(note, null, 13));
+    res.status(200).json(note);
+  } else {
+    res.status(401).json({ error: "requested note not found" });
+  }
 });
 
 app.post("/api/notes", async (req, res) => {
