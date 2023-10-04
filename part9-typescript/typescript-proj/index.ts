@@ -8,7 +8,7 @@ function calculator(num1: number, num2: number, op: Operation): Result {
     case "add":
       return num1 + num2;
     case "divide":
-      if (num2 === 0) return "Can't divide by zero";
+      if (num2 === 0) throw new Error("Can't divide by zero");
       return num1 / num2;
     default:
       throw new Error("Operation is not multiply, add or divide!");
@@ -16,9 +16,9 @@ function calculator(num1: number, num2: number, op: Operation): Result {
 }
 
 try {
-  console.log(calculator(12, 3, "divide"));
+  console.log(calculator(12, 0, "divide"));
 } catch (error: unknown) {
-  let errorMessage = "Something went wrong!";
+  let errorMessage = "Something went wrong! ";
   if (error instanceof Error) {
     errorMessage += error.message;
   }
