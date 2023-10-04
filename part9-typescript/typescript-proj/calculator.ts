@@ -1,7 +1,7 @@
-type Operation = "add" | "multiply" | "divide";
+export type Operation = "add" | "multiply" | "divide";
 type Result = string | number;
 
-function calculator(num1: number, num2: number, op: Operation): Result {
+export function calculator(num1: number, num2: number, op: Operation): Result {
   switch (op) {
     case "multiply":
       return num1 * num2;
